@@ -28,7 +28,22 @@ To provide a more detailed explanation of the architecture:
 
 This architecture leverages the power of big data technologies to process and analyze data from Reddit, enabling the extraction of valuable insights and facilitating data-driven decision making.
 
-## Setup
+## Setup Cloud Environment
+
+We are deploying cloudera quickstart stack on AWS cloud.
+
+- Create a instance from https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#LaunchInstances:
+  ![Create Instance](docs/create-instance.png)
+- We are using Amazon Linux. It comes with docker installed. we dont have to manage additional packages.
+  ![Select linux ami](docs/select-linux-ami.png)
+- Select the instance type. Cloudera minimum requires 8 core of cpu and 32 GB of RAM to run.
+  ![Select Instance Type](docs/select-instance-type.png)
+- You should download the ssh-keypair during instance creation. This keypair will be required to login to server.Once instance is created it is ready to use
+  ![Instance Created](docs/instance-created.png)
+- This instance is not reachable outside the world. You need to open all ports for your local IP and open 3306 port for grafana labs. In this project I am using grafana lab instead of hosting our own grafana server. IP list can be found at https://grafana.com/api/hosted-alerts/source-ips.txt
+  ![Security Group](docs/security-group.png)
+
+###
 
 ### Start Kafka Server
 
@@ -131,6 +146,14 @@ Once the Spark SQL job execution is successful, the following files will be gene
 
 - `hdfs://users/cloudera/CommentResultTable`
 - `hdfs://users/cloudera/CommentCountTable`
+
+#### Sample CommentResultTable data
+
+```csv
+lorvwlm;justwant_tobepretty;General;general;1.727221162E9
+lorvjwk;lingalinglingling;World news;news;1.727221033E9
+lorubtb;_zoecox_;Genera Redit Questions,Country;askreddit,country;1.727220586E9
+```
 
 ## Transfer data from hdfs to mysql
 
