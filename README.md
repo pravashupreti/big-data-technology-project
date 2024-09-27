@@ -74,6 +74,17 @@ git clone https://github.com/pravashupreti/big-data-technology-project.git
    ```
    docker-compose up -d
    ```
+3. Login to kafka server
+
+```
+docker exec -it kafka bash
+```
+
+4. Create a kafka topic with 10 partition (We will have multiple thread publishing redit comments) and 1 replicas (We only have 1 broker in local)
+
+```
+/bin/kafka-topics --create --bootstrap-server localhost:9092  --partitions 10 --replication-factor 1 --topic reddit_comments
+```
 
 These steps will ensure that the Kafka server is up and running, ready to receive and process data in your architecture.
 
@@ -96,7 +107,7 @@ Go to https://old.reddit.com/prefs/apps/ and create new application as shown in 
 3. Create a virtual environment using Python by running the following command:
 
    ```
-   python -m venv venv
+   python3 -m venv venv
    ```
 
 4. Activate the virtual environment. On macOS or Linux, run the following command:
@@ -109,13 +120,20 @@ Go to https://old.reddit.com/prefs/apps/ and create new application as shown in 
 
    ```
    pip install -r requirements.txt
+   pip install git+https://github.com/dpkp/kafka-python.git # this is to fix
    ```
 
-6. Run the `main.py` script by running the following command:
+6. Rename credentials file to [credentials.cfg](reddit-streaming-to-kafka/secrets/credentials.cfg.example) and add all value
+
+7. Run the `main.py` script by running the following command:
 
    ```
-   python main.py
+   python3 main.py
    ```
+
+   On successfull run you will see following logs on terminal
+
+![Stdout logs](docs/reddit-streaming-to-kafka-stdout-log.png)
 
 ### Run Spark Streaming Job
 

@@ -65,7 +65,7 @@ class RedditProducer:
                 }
 
                 self.producer.send("reddit_comments",value=comment_json, key=comment.id.encode("utf-8"))
-                print(f"subreddit: {subreddit_name}, comment: {comment_json}")
+                print(f"subreddit: {subreddit_name}, comment: {comment_json} \n")
                 time.sleep(10)
             except Exception as e:
                 print("An error occurred:", str(e))
