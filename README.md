@@ -43,7 +43,24 @@ We are deploying cloudera quickstart stack on AWS cloud.
 - This instance is not reachable outside the world. You need to open all ports for your local IP and open 3306 port for grafana labs. In this project I am using grafana lab instead of hosting our own grafana server. IP list can be found at https://grafana.com/api/hosted-alerts/source-ips.txt
   ![Security Group](docs/security-group.png)
 
-###
+### Run cloudera quickstart stack
+
+Login to the ec2 instance and clone the project on home directory of `ec2-user`.
+
+```shell
+ssh -i keypair.pem ec2-user@<your-server-ip>
+git clone https://github.com/pravashupreti/big-data-technology-project.git
+```
+
+## Setup Local Environment
+
+We are developing all project on our local system so all the java application and kafka server will run on local system. The purpose of the project is to showthe bigdata processing pipeline instead making it production ready.
+
+### Clone the repo locally
+
+```shell
+git clone https://github.com/pravashupreti/big-data-technology-project.git
+```
 
 ### Start Kafka Server
 
