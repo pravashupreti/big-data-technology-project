@@ -1,5 +1,3 @@
-# big-data-technology-project
-
 # Big Data Technology Project
 
 ## Architecture
