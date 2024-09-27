@@ -45,6 +45,12 @@ This architecture leverages the power of big data technologies to process and an
 
 These steps will ensure that the Kafka server is up and running, ready to receive and process data in your architecture.
 
+### Setup reddit api
+
+Go to https://old.reddit.com/prefs/apps/ and create new application as shown in screenshot.
+![Create Reddit Appp](docs/create-reddit-app.png)
+![Edit Reddit Appp](docs/edit-reddit-app.png)
+
 ### Stream Reddit Comments to Kafka Server
 
 1. Open a terminal or command prompt.
