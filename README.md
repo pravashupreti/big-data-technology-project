@@ -1,12 +1,12 @@
 # big-data-technology-project
 
-Big data technology project
+# Big Data Technology Project
 
-# Architecture
+## Architecture
 
 ![Architecture](docs/architecture.jpg)
 
-## Explanation of the Architecture
+### Explanation of the Architecture
 
 To provide a more detailed explanation of the architecture:
 
@@ -25,3 +25,133 @@ To provide a more detailed explanation of the architecture:
 7. Finally, Grafana is used for data visualization. It connects to the MySQL database and runs SQL queries to fetch the final data. Grafana provides a user-friendly interface to create dashboards and visualizations, enabling users to gain insights from the processed data in a visually appealing manner.
 
 This architecture leverages the power of big data technologies to process and analyze data from Reddit, enabling the extraction of valuable insights and facilitating data-driven decision making.
+
+## Setup
+
+### Start Kafka Server
+
+1. Change the directory to the Kafka server by running the following command:
+
+   ```
+   cd kafka-server
+   ```
+
+2. Start the Kafka server using Docker Compose by running the following command:
+   ```
+   docker-compose up -d
+   ```
+
+These steps will ensure that the Kafka server is up and running, ready to receive and process data in your architecture.
+
+### Stream Reddit Comments to Kafka Server
+
+1. Open a terminal or command prompt.
+
+2. Change the directory to the `reddit-streaming-to-kafka` directory by running the following command:
+
+   ```
+   cd reddit-streaming-to-kafka
+   ```
+
+3. Create a virtual environment using Python by running the following command:
+
+   ```
+   python -m venv venv
+   ```
+
+4. Activate the virtual environment. On macOS or Linux, run the following command:
+
+   ```
+   source venv/bin/activate
+   ```
+
+5. Install the required dependencies by running the following command:
+
+   ```
+   pip install -r requirements.txt
+   ```
+
+6. Run the `main.py` script by running the following command:
+
+   ```
+   python main.py
+   ```
+
+### Run Spark Streaming Job
+
+- Change the directory to the `spark-streaming-to-hbase` directory using the command: `cd spark-streaming-to-hbase`
+
+- Open the project in IntelliJ by selecting "Open" from the File menu and navigating to the `spark-streaming-to-hbase` directory.
+
+- Ensure that the Spark job is configured to run in local mode by setting the appropriate configuration properties in the Spark job code or by passing the `--master local` option when running the job.
+
+- To minimize network latency, export the Spark job as a JAR file and run it on the same server where the Cloudera stack is running. Build the project and generate the JAR file using the build tools provided by IntelliJ or by running the appropriate build command in the terminal.
+
+- If you need to update the HBase configuration, modify the `HBaseDBManager.java` file in the `spark-streaming-to-hbase` project. This file contains the necessary code to connect to the HBase database and perform operations on it. Update the appropriate configuration properties, such as the HBase ZooKeeper quorum and port, according to your environment.
+
+```java
+public HBaseDBManager() throws IOException
+{
+     this.hbaseConfig = HBaseConfiguration.create();
+     hbaseConfig.set("hbase.zookeeper.quorum", "54.221.154.35"); // HBase server IP where zookeeper is running
+     hbaseConfig.set("hbase.zookeeper.property.clientPort", "2181");
+     hbaseConfig.set("hbase.rpc.timeout", "60000");
+     hbaseConfig.set("hbase.client.retries.number", "3");
+
+     this.DefaultValues();
+     this.rowkeyAnalysis=this.GetMaxRownum();
+}
+```
+
+### Run Spark SQL Job
+
+- Change the directory to the `HbaseToHDFS` directory using the command: `cd HbaseToHDFS`
+
+- Open the project in IntelliJ by selecting "Open" from the File menu and navigating to the `HbaseToHDFS` directory.
+
+- Build the project and generate the JAR file using the build tools provided by IntelliJ or by running the appropriate build command in the terminal.
+
+- Copy the generated JAR file to the Cloudera server where it has access to HBase and HDFS.
+
+- Run the JAR file on the Cloudera server using the appropriate command, specifying the necessary configuration properties and dependencies. For example:
+
+```shell
+spark-submit --class com.bdt.HbaseToHDFS --master yarn --deploy-mode cluster --executor-memory 2g --num-executors 4 hbase-to-hdfs.jar
+```
+
+Once the Spark SQL job execution is successful, the following files will be generated with part files:
+
+- `hdfs://users/cloudera/CommentResultTable`
+- `hdfs://users/cloudera/CommentCountTable`
+
+## Transfer data from hdfs to mysql
+
+Change the directory to the `hdfs-to-mysql` directory using the command:
+
+```shell
+cd hdfs-to-mysql
+```
+
+Run the bash script run.sh by executing the following command:
+
+```shell
+bash run.sh
+```
+
+This script will handle the data transfer process from HDFS to MySQL.
+
+## Create grafana user in mysql
+
+Login to mysql
+
+```shell
+mysql -u root -pcloudera
+```
+
+Run following command inside mysql to create grafana user. This user wil be used in grafana to connect mysql and fetch the data.
+
+```sql
+CREATE USER 'grafana'@'%' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON RedditComment.* TO 'grafana'@'%';
+FLUSH PRIVILEGES;
+```
