@@ -1,5 +1,9 @@
 # Big Data Technology Project
 
+### Reddit comment analyzer
+
+This project uses the Reddit API to fetch comments from selected subreddits. The comments are categorized into keywords. Later, the distribution and trends of those keywords are analyzed.
+
 ## Architecture
 
 ![Architecture](docs/architecture.jpg)
@@ -153,3 +157,34 @@ CREATE USER 'grafana'@'%' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON RedditComment.* TO 'grafana'@'%';
 FLUSH PRIVILEGES;
 ```
+
+## Visualize on grafana
+
+create a trend panel using following sql query. It will return a timeserie data.
+
+```sql
+SELECT
+    time,
+    tags,
+    COUNT(*) as ""
+FROM (
+    SELECT
+        FROM_UNIXTIME(FLOOR(timestamp / 60) * 60) AS time, tags
+        tags
+    FROM
+        RedditComment.CommentResultTable
+) AS inner_query
+GROUP BY
+    time, tags
+ORDER BY
+    time;
+
+```
+
+After that add another panel to show the keyword distribution in piechart.
+
+```sql
+SELECT * FROM RedditComment.CommentCountTable LIMIT 50
+```
+
+![Dashboard](docs/grafana.png)
