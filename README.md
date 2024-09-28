@@ -50,6 +50,15 @@ Login to the ec2 instance and clone the project on home directory of `ec2-user`.
 ```shell
 ssh -i keypair.pem ec2-user@<your-server-ip>
 git clone https://github.com/pravashupreti/big-data-technology-project.git
+cd big-data-technology-project/cloudera
+docker-compose up -d
+```
+
+Make sure all the cloudera service are running
+
+```shell
+ docker exec -it quickstart.cloudera bash
+ service --status-all
 ```
 
 ## Setup Local Environment
@@ -252,3 +261,14 @@ SELECT * FROM RedditComment.CommentCountTable LIMIT 50
 ```
 
 ![Dashboard](docs/grafana.png)
+
+## Wholeness of Project​
+
+In this project we have used multiple technologies such as Kafka, Spark, Hive, Tableau, etc. to get the tweets from twitter and perform some analysis on it. After analysis we have visualized the results into Pie Chart and Bar Graph.​
+
+### Science and Technology of Consciousness:
+
+As creation is built up of layers and to get to know about unified field of consciousness, we practice Transcendental Meditation on daily basis. After practicing the Transcendental Meditation, we get to visualize the positive effects of it in our daily lives and often times nature is coming for the help as well.​
+​
+
+​
