@@ -7,8 +7,7 @@ import praw
 import threading
 
 threads = []
-top_subreddit_list = ['AskReddit', 'funny', 'gaming', 'aww', 'worldnews']
-countries_subreddit_list = ['india', 'usa', 'unitedkingdom', 'australia']
+top_stock_sub_reddit = ['stocks', 'Daytrading', 'FinancialCareers', 'investing', 'StockMarket','dividends','ValueInvesting','options','finance','Trading','technicalanalysis']
 
 
 class RedditProducer:
@@ -66,7 +65,7 @@ class RedditProducer:
 
                 self.producer.send("reddit_comments",value=comment_json, key=comment.id.encode("utf-8"))
                 print(f"subreddit: {subreddit_name}, comment: {comment_json} \n")
-                time.sleep(10)
+                time.sleep(1)
             except Exception as e:
                 print("An error occurred:", str(e))
     
@@ -81,5 +80,5 @@ class RedditProducer:
 
 
 if __name__ == "__main__":
-    reddit_producer = RedditProducer(top_subreddit_list + countries_subreddit_list)
+    reddit_producer = RedditProducer(top_stock_sub_reddit)
     reddit_producer.start_streaming_threads()

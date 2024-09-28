@@ -25,6 +25,27 @@ import org.apache.spark.api.java.JavaRDD;
 
 public class HBaseDBManager
 {
+    public static final Map<String, String> map = new HashMap<>();
+    static {
+        map.put("trading", "Trading");
+        map.put("finance", "Finance");
+        map.put("invest", "Investing Investment");
+        map.put("career", "Career");
+        map.put("options", "Options");
+        map.put("market", "Market");
+        map.put("portfolio", "Portfolio");
+        map.put("strategy", "Strategy");
+        map.put("stock", "Stock");
+        map.put("dividend", "Dividend");
+        map.put("advice", "Advice");
+        map.put("job", "Job");
+        map.put("watchlist", "Watchlist");
+        map.put("earnings", "Earnings");
+        map.put("forex", "Forex");
+        map.put("analysis", "Analysis");
+        map.put("daytrading", "Day Trading");
+        map.put("spy", "Spy");
+    }
     private Configuration hbaseConfig;
     private int rowkeyAnalysis=0;
     private final String TABLE_NAME="table_reddit_comment_analysis";
@@ -32,7 +53,7 @@ public class HBaseDBManager
     public HBaseDBManager() throws IOException
     {
         this.hbaseConfig = HBaseConfiguration.create();
-        hbaseConfig.set("hbase.zookeeper.quorum", "54.221.154.35"); // Set Zookeeper server IP which I have setup on AWS
+        hbaseConfig.set("hbase.zookeeper.quorum", "54.226.131.75"); // Set Zookeeper server IP which I have setup on AWS
         hbaseConfig.set("hbase.zookeeper.property.clientPort", "2181"); // Default Zookeeper client port
         hbaseConfig.set("hbase.rpc.timeout", "60000");
         hbaseConfig.set("hbase.client.retries.number", "3");
@@ -60,30 +81,26 @@ public class HBaseDBManager
                 admin.createTable(table);
                 Table tbl = connection.getTable(TableName.valueOf("table_keywords"));
 
-                Put put1 = new Put(Bytes.toBytes("1"));
-                put1.addColumn(Bytes.toBytes("type_family"),Bytes.toBytes("type"),Bytes.toBytes("Genera Redit Questions"));
-                put1.addColumn(Bytes.toBytes("keywords_family"),Bytes.toBytes("keywords"),Bytes.toBytes("askreddit"));
-                tbl.put(put1);
+//                Put put1 = new Put(Bytes.toBytes("1"));
+//                put1.addColumn(Bytes.toBytes("type_family"),Bytes.toBytes("type"),Bytes.toBytes("Genera Redit Questions"));
+//                put1.addColumn(Bytes.toBytes("keywords_family"),Bytes.toBytes("keywords"),Bytes.toBytes("askreddit"));
+//                tbl.put(put1);
 
-                Put put2 = new Put(Bytes.toBytes("2"));
-                put2.addColumn(Bytes.toBytes("type_family"),Bytes.toBytes("type"),Bytes.toBytes("Funny Humor"));
-                put2.addColumn(Bytes.toBytes("keywords_family"),Bytes.toBytes("keywords"),Bytes.toBytes("fun"));
-                tbl.put(put2);
+                int rowIndex = 1;
+                for (Map.Entry<String, String> entry : map.entrySet()) {
 
-                Put put3 = new Put(Bytes.toBytes("3"));
-                put3.addColumn(Bytes.toBytes("type_family"),Bytes.toBytes("type"),Bytes.toBytes("Gaming"));
-                put3.addColumn(Bytes.toBytes("keywords_family"),Bytes.toBytes("keywords"),Bytes.toBytes("game"));
-                tbl.put(put3);
+                    String value = entry.getValue(); // Use the map's value as the column value
+                    Put put = new Put(Bytes.toBytes(rowIndex));
 
-                Put put4 = new Put(Bytes.toBytes("4"));
-                put4.addColumn(Bytes.toBytes("type_family"),Bytes.toBytes("type"),Bytes.toBytes("World news"));
-                put4.addColumn(Bytes.toBytes("keywords_family"),Bytes.toBytes("keywords"),Bytes.toBytes("news"));
-                tbl.put(put4);
+                    // Add columns (you can customize column family/qualifiers as needed)
+                    put.addColumn(Bytes.toBytes("type_family"), Bytes.toBytes("type"), Bytes.toBytes(value));
+                    put.addColumn(Bytes.toBytes("keywords_family"), Bytes.toBytes("keywords"), Bytes.toBytes(value.toLowerCase()));
 
-                Put put5 = new Put(Bytes.toBytes("5"));
-                put5.addColumn(Bytes.toBytes("type_family"),Bytes.toBytes("type"),Bytes.toBytes("Country"));
-                put5.addColumn(Bytes.toBytes("keywords_family"),Bytes.toBytes("keywords"),Bytes.toBytes("country"));
-                tbl.put(put5);
+                    // Insert the Put object into the HBase table
+                    tbl.put(put);
+                    rowIndex++;
+
+                }
 
 
                 tbl.close();

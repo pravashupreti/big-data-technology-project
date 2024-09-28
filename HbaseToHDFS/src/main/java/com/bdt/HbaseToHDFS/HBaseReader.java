@@ -22,7 +22,7 @@ public class HBaseReader
     public HBaseReader()
     {
         this.hbaseConfig = HBaseConfiguration.create();
-        hbaseConfig.set("hbase.zookeeper.quorum", "54.81.184.23"); 
+        hbaseConfig.set("hbase.zookeeper.quorum", "54.226.131.75");
         hbaseConfig.set("hbase.zookeeper.property.clientPort", "2181"); 
         hbaseConfig.set("hbase.zookeeper.property.tickTime", "3000"); 
         hbaseConfig.set("hbase.rpc.timeout", "60000");

@@ -61,14 +61,16 @@ public class App {
         Dataset<Row> dataFrame = spark.createDataFrame(rowRDD, schema);
         dataFrame.createOrReplaceTempView("reddit_comment");
 
-        Dataset<Row> redditCommentResult = spark.sql("SELECT * FROM reddit_comment WHERE key != 'NULL'");
+        Dataset<Row> redditCommentResult = spark.sql("SELECT * FROM ( SELECT key, user, reddit_comment_analysis, explode(split(keyword, ',')) AS keyword, timestamp FROM reddit_comment WHERE key IS NOT NULL ) AS exploded_keywords");
         redditCommentResult.show(50);
 
-        Dataset<Row> redditCommentCount = spark.sql("SELECT reddit_comment_analysis as comment_type,count(*) as count FROM reddit_comment group by reddit_comment_analysis");
+        Dataset<Row> redditCommentCount = spark.sql("SELECT keyword, COUNT(*) AS count FROM ( SELECT explode(split(reddit_comment_analysis, ',')) AS keyword FROM reddit_comment ) AS exploded_keywords GROUP BY keyword ORDER BY count DESC");
         redditCommentCount.show(50);
 
-        redditCommentResult.write().mode("append").option("header","false").option("delimiter", ";").csv("hdfs://users/cloudera/CommentResultTable");
-        redditCommentCount.write().mode("append").option("header","false").option("delimiter", ";").csv("hdfs://users/cloudera/CommentCountTable");
+//        redditCommentResult.write().mode("overwrite").option("header","false").option("delimiter", ";").csv("hdfs://users/cloudera/CommentResultTable");
+//        redditCommentCount.write().mode("overwrite").option("header","false").option("delimiter", ";").csv("hdfs://users/cloudera/CommentCountTable");
+        redditCommentResult.write().mode("overwrite").option("header","false").option("delimiter", ";").csv("file:///Users/pravash/workspace/hdfs/CommentResultTable");
+        redditCommentCount.write().mode("overwrite").option("header","false").option("delimiter", ";").csv("file:///Users/pravash/workspace/hdfs/CommentCountTable");
 
     }
 }
