@@ -170,6 +170,10 @@ public HBaseDBManager() throws IOException
 }
 ```
 
+![Hbase Table](docs/hbase-table.png)
+![Hbase Table](docs/table-keywords.png)
+![Hbase Table](docs/table-reddit-comment-analysis.png)
+
 ### Run Spark SQL Job
 
 - Change the directory to the `HbaseToHDFS` directory using the command: `cd HbaseToHDFS`
@@ -190,14 +194,9 @@ Once the Spark SQL job execution is successful, the following files will be gene
 
 - `hdfs://users/cloudera/CommentResultTable`
 - `hdfs://users/cloudera/CommentCountTable`
-
-#### Sample CommentResultTable data
-
-```csv
-lorvwlm;justwant_tobepretty;General;general;1.727221162E9
-lorvjwk;lingalinglingling;World news;news;1.727221033E9
-lorubtb;_zoecox_;Genera Redit Questions,Country;askreddit,country;1.727220586E9
-```
+  ![Spark Output](docs/spark-sql-output.png)
+  ![Spark Output](docs/comment-count-table.png)
+  ![Spark Output](docs/comment-result-table.png)
 
 ## Transfer data from hdfs to mysql
 
