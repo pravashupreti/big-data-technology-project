@@ -6,7 +6,7 @@ This project uses the Reddit API to fetch comments from selected subreddits. The
 
 ## Architecture
 
-![Architecture](docs/architecture.jpg)
+![Architecture](docs/architecture.png)
 
 ### Explanation of the Architecture
 
