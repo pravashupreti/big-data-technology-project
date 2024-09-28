@@ -263,11 +263,9 @@ SELECT * FROM RedditComment.CommentCountTable LIMIT 50
 
 ## Wholeness of Project​
 
-In this project we have used multiple technologies such as Kafka, Spark, Hive, Tableau, etc. to get the tweets from twitter and perform some analysis on it. After analysis we have visualized the results into Pie Chart and Bar Graph.​
+In this project I have used multiple technologies such as Kafka, Spark Streaming, Spark SQL, Mysql, grafana, etc. to get the reddit comments from reddit and perform some analysis on stock market. After analysis I have visualized the results into timeseries and piechart.​
 
 ### Science and Technology of Consciousness:
 
-As creation is built up of layers and to get to know about unified field of consciousness, we practice Transcendental Meditation on daily basis. After practicing the Transcendental Meditation, we get to visualize the positive effects of it in our daily lives and often times nature is coming for the help as well.​
-​
-
+Since creation is composed of layers, and to connect with the unified field of consciousness, we practice Transcendental Meditation daily. Through regular practice, we begin to experience its positive effects in our everyday lives. Often, we find that nature itself supports and enhances this journey, offering its own subtle assistance in our growth and well-being.
 ​
