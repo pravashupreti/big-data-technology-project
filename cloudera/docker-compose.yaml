@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  cloudera:
+    image: cloudera/quickstart
+    hostname: quickstart.cloudera
+    privileged: true
+    volumes:
+      - ~/shared:/shared
+    ports:
+      - "8888:8888"
+      - "60000:60000"
+      - "60010:60010"
+      - "60020:60020"
+      - "60030:60030"
+      - "2888:2888"
+      - "3888:3888"
+      - "2181:2181"
+      - "8020:8020"
+      - "3306:3306"
+
+    command: /usr/bin/docker-quickstart
+    stdin_open: true
+    tty: true
+    restart: always
