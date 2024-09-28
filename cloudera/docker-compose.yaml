@@ -3,6 +3,7 @@ version: "3.8"
 services:
   cloudera:
     image: cloudera/quickstart
+    container_name: quickstart.cloudera
     hostname: quickstart.cloudera
     privileged: true
     volumes:
